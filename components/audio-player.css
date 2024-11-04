@@ -1,6 +1,3 @@
-/* components/audio-player.css */
-
-
 :host {
     display: block;
     font-family: Arial, sans-serif;
@@ -9,39 +6,9 @@
     overflow: hidden;
 }
 
-#visualizer {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 1;
-    pointer-events: none;
-}
-
 audio, webaudio-knob {
     position: relative;
     z-index: 10;
     margin: 5px;
     padding: 5px 10px;
-}
-
-#playlist {
-    margin-top: 20px;
-    text-align: left;
-}
-
-#trackList {
-    list-style: none;
-    padding: 0;
-}
-
-#trackList li {
-    padding: 5px;
-    cursor: pointer;
-}
-
-#trackList li.active {
-    color: #ff9900;
-    font-weight: bold;
 }
