@@ -3,17 +3,47 @@ class AudioEqualizer extends HTMLElement {
         super();
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.innerHTML = `
-            <div class="audio-equalizer">
+        <div class="audio-equalizer">
+            <div class="slider-container">
                 <label>Bass</label>
-                <webaudio-slider id="bassControl" min="-10" max="10" value="0" step="0.1"></webaudio-slider>
-                <label>Mid-Bass</label>
-                <webaudio-slider id="midBassControl" min="-10" max="10" value="0" step="0.1"></webaudio-slider>
-                <label>Mid</label>
-                <webaudio-slider id="midControl" min="-10" max="10" value="0" step="0.1"></webaudio-slider>
-                <label>Treble</label>
-                <webaudio-slider id="trebleControl" min="-10" max="10" value="0" step="0.1"></webaudio-slider>
+                <webaudio-knob id="bassControl" 
+                src="../knobs/ST_Fader_230x69_128f.png" 
+                value="10" step="0.01" 
+                sprites="127"  
+                width=100
+                tooltip="Knob1 tooltip %d"></webaudio-knob>
+
             </div>
-        `;
+
+            <div class="slider-container">
+                <label>Mid-Bass</label>
+                <webaudio-knob id="midBassControl" 
+                src="../knobs/ST_Fader_230x69_128f.png" 
+                value="10" step="0.01" 
+                sprites="127"  
+                width=100
+                tooltip="Knob1 tooltip %d"></webaudio-knob>
+            </div>
+            <div class="slider-container">
+                <label>Mid</label>
+                <webaudio-knob id="midControl"
+                src="../knobs/ST_Fader_230x69_128f.png" 
+                value="10" step="0.01" 
+                sprites="127"  
+                width=100
+                tooltip="Knob1 tooltip %d"></webaudio-knob>
+            </div>
+            <div class="slider-container">
+                <label>Treble</label>
+                <webaudio-knob id="trebleControl" 
+                src="../knobs/ST_Fader_230x69_128f.png" 
+                value="10" step="0.01" 
+                sprites="127"  
+                width=100
+                tooltip="Knob1 tooltip %d"></webaudio-knob>
+            </div>
+        </div>
+    `;
     }
 
     connectedCallback() {

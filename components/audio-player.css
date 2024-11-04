@@ -1,14 +1,24 @@
-:host {
-    display: block;
-    font-family: Arial, sans-serif;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
+.audio-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 10px;
 }
 
-audio, webaudio-knob {
-    position: relative;
-    z-index: 10;
-    margin: 5px;
-    padding: 5px 10px;
+.control-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    background: none;
+    color: inherit;
+}
+
+.volume-control {
+    text-align: center;
+    margin-top: 10px;
 }

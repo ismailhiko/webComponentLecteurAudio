@@ -1,22 +1,11 @@
-:host {
+.knob-container {
     display: flex;
-    flex-direction: column; /* Disposer les curseurs côte à côte en colonnes */
-    gap: 20px;
-    margin-top: 20px;
-    justify-content: center;
-
+    flex-direction: column;
+    align-items: center;
+    margin-right: 20px; /* Espace entre les boutons */
 }
 
 .audio-equalizer {
     display: flex;
-    flex-direction: column; /* Empiler le label et le curseur verticalement */
     justify-content: center;
-
 }
-
-.audio-equalizer label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    text-align: center;
-}
-
