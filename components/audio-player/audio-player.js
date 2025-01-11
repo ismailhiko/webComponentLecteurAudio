@@ -5,6 +5,22 @@ class AudioPlayer extends HTMLElement {
         this.currentTrackIndex = 0;
     }
 
+    static get observedAttributes() {
+        return ['src', 'playlist', 'eq'];
+    }
+
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (name === 'src') {
+            this.src = newValue; // Mise à jour de la source audio
+        }
+        if (name === 'playlist') {
+            this.showPlaylist = newValue === 'true'; // Afficher/masquer la playlist
+        }
+        if (name === 'eq') {
+            this.showEqualizer = newValue === 'true'; // Afficher/masquer l'égaliseur
+        }
+    }
+
     async connectedCallback() {
         await this.loadHTML();
         this.loadCSS();
@@ -13,11 +29,8 @@ class AudioPlayer extends HTMLElement {
         this.audioSource = this.shadowRoot.getElementById('audioSource');
 
         this.initAudioContext();
-
-        // Ajouter les écouteurs pour les boutons et les événements
         this.setupEventListeners();
 
-        // Informer les autres composants que l'audio est prêt
         this.dispatchEvent(new CustomEvent('audio-ready', {
             detail: {
                 audioElement: this.audio,
@@ -28,10 +41,15 @@ class AudioPlayer extends HTMLElement {
             bubbles: true,
             composed: true,
         }));
+
+        // Initialiser la piste si `src` est défini dans les attributs
+        if (this.hasAttribute('src')) {
+            this.src = this.getAttribute('src');
+        }
     }
 
     async loadHTML() {
-        const response = await fetch('components/audio-player.html');
+        const response = await fetch('components/audio-player/audio-player.html');
         const html = await response.text();
         this.shadowRoot.innerHTML = html;
     }
@@ -39,7 +57,7 @@ class AudioPlayer extends HTMLElement {
     loadCSS() {
         const link = document.createElement('link');
         link.rel = 'stylesheet';
-        link.href = 'components/audio-player.css';
+        link.href = 'components/audio-player/audio-player.css';
         this.shadowRoot.appendChild(link);
     }
 
@@ -47,37 +65,28 @@ class AudioPlayer extends HTMLElement {
         this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
         this.gainNode = this.audioContext.createGain();
         this.analyser = this.audioContext.createAnalyser();
-
-        // Créez une seule instance MediaElementSourceNode
         this.sourceNode = this.audioContext.createMediaElementSource(this.audio);
 
-        // Connecter les noeuds
         this.sourceNode.connect(this.gainNode);
         this.gainNode.connect(this.analyser);
         this.analyser.connect(this.audioContext.destination);
     }
 
     setupEventListeners() {
-        // Boutons de contrôle audio
         this.shadowRoot.getElementById('playButton').addEventListener('click', () => this.playAudio());
         this.shadowRoot.getElementById('pauseButton').addEventListener('click', () => this.pauseAudio());
         this.shadowRoot.getElementById('stopButton').addEventListener('click', () => this.stopAudio());
         this.shadowRoot.getElementById('forwardButton').addEventListener('click', () => this.forwardAudio());
         this.shadowRoot.getElementById('volumeControl').addEventListener('input', (e) => this.setVolume(e));
 
-        // Écouter les événements de sélection de piste depuis audio-playlist
         const playlist = document.querySelector('audio-playlist');
         if (playlist) {
             playlist.addEventListener('selecttrack', (event) => {
-                const index = event.detail.index; // Récupérer l'index de la piste
+                const index = event.detail.index;
                 if (index !== undefined) {
-                    this.loadTrack(index, playlist.tracks); // Charge la piste depuis la playlist
-                } else {
-                    console.error('Index is undefined in the selecttrack event.');
+                    this.loadTrack(index, playlist.tracks);
                 }
             });
-        } else {
-            console.error('audio-playlist element not found.');
         }
     }
 
@@ -118,8 +127,35 @@ class AudioPlayer extends HTMLElement {
                 bubbles: true,
                 composed: true,
             }));
-        } else {
-            console.error('Invalid track index:', index);
+        }
+    }
+
+    get playing() {
+        return !this.audio.paused;
+    }
+
+    get src() {
+        return this.audio ? this.audio.src : '';
+    }
+
+    set src(value) {
+        if (this.audio) {
+            this.audio.src = value;
+            this.audio.load();
+        }
+    }
+
+    set showPlaylist(value) {
+        const playlist = document.querySelector('audio-playlist');
+        if (playlist) {
+            playlist.style.display = value ? 'block' : 'none';
+        }
+    }
+
+    set showEqualizer(value) {
+        const equalizer = document.querySelector('audio-equalizer');
+        if (equalizer) {
+            equalizer.style.display = value ? 'block' : 'none';
         }
     }
 }

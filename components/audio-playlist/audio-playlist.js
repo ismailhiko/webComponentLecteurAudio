@@ -23,7 +23,7 @@ class AudioPlaylist extends HTMLElement {
     loadCSS() {
         const link = document.createElement('link');
         link.rel = 'stylesheet';
-        link.href = 'components/audio-playlist.css';
+        link.href = 'components/audio-playlist/audio-playlist.css';
         this.shadowRoot.appendChild(link);
     }
 
@@ -34,8 +34,6 @@ class AudioPlaylist extends HTMLElement {
             const item = document.createElement('li');
             item.textContent = track.title;
             item.className = 'track-item';
-    
-            // Ajouter un événement pour sélectionner un élément
             item.addEventListener('click', () => {
                 this.dispatchEvent(
                     new CustomEvent('selecttrack', {
@@ -44,14 +42,9 @@ class AudioPlaylist extends HTMLElement {
                         composed: true,
                     })
                 );
-    
-                // Gérer l'état actif
                 this.highlightTrack(index);
-    
-                // Faire défiler jusqu'à l'élément sélectionné
                 item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             });
-    
             list.appendChild(item);
         });
     }
@@ -66,9 +59,15 @@ class AudioPlaylist extends HTMLElement {
             }
         });
     }
-    
-    
-    
+
+    get tracks() {
+        return this._tracks || [];
+    }
+
+    set tracks(value) {
+        this._tracks = value;
+        this.renderPlaylist();
+    }
 }
 
 customElements.define('audio-playlist', AudioPlaylist);

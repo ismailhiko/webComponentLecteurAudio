@@ -68,17 +68,17 @@ class AudioEqualizer extends HTMLElement {
     loadCSS() {
         const link = document.createElement('link');
         link.rel = 'stylesheet';
-        link.href = 'components/audio-equalizer.css';
+        link.href = 'components/audio-equalizer/audio-equalizer.css';
         this.shadowRoot.appendChild(link);
     }
 
     initEqualizer(audioContext, sourceNode) {
         // Créez les filtres pour Bass, Mid-Bass, Mid, et Treble
         this.filters = {
-            bass: this.createFilter(audioContext, 'lowshelf', 1000),
-            midBass: this.createFilter(audioContext, 'peaking', 5000),
-            mid: this.createFilter(audioContext, 'peaking', 1000),
-            treble: this.createFilter(audioContext, 'highshelf', 8000),
+            bass: this.createFilter(audioContext, 'lowshelf', 100),
+            midBass: this.createFilter(audioContext, 'peaking', 500),
+            mid: this.createFilter(audioContext, 'peaking', 100),
+            treble: this.createFilter(audioContext, 'highshelf', 80),
         };
 
         // Connecter les filtres en chaîne

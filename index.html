@@ -8,24 +8,17 @@
 </head>
 <body>
     <h1>Lecteur Audio Modulaire</h1>
-
-    <!-- Playlist -->
     <audio-playlist></audio-playlist>
-
-    <!-- Lecteur Audio -->
-    <audio-player></audio-player>
-
-    <!-- Égaliseur de Fréquences -->
+    <audio-player playlist="true" eq="true"></audio-player>
     <audio-equalizer></audio-equalizer>
-
-    <!-- Visualiseur Audio -->
     <audio-visualizer></audio-visualizer>
+
 
     <!-- Importation des composants JavaScript -->
     <script src="components/webaudio-controls.js"></script>
-    <script type="module" src="components/audio-playlist.js"></script>
-    <script type="module" src="components/audio-player.js"></script>
-    <script type="module" src="components/audio-equalizer.js"></script>
-    <script type="module" src="components/audio-visualizer.js"></script>
+    <script type="module" src="components/audio-playlist/audio-playlist.js"></script>
+    <script type="module" src="components/audio-player/audio-player.js"></script>
+    <script type="module" src="components/audio-equalizer/audio-equalizer.js"></script>
+    <script type="module" src="components/audio-visualizer/audio-visualizer.js"></script>
 </body>
 </html>

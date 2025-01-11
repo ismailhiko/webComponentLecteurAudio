@@ -33,7 +33,7 @@ class AudioVisualizer extends HTMLElement {
     loadCSS() {
         const link = document.createElement('link');
         link.rel = 'stylesheet';
-        link.href = 'components/audio-visualizer.css';
+        link.href = 'components/audio-visualizer/audio-visualizer.css';
         this.shadowRoot.appendChild(link);
     }
 
