@@ -8,11 +8,16 @@ class AudioPlaylist extends HTMLElement {
                 <ul id="trackList"></ul>
             </div>
         `;
+        this.tracks = [
+            { title: 'Calme', src: 'audio.mp3' },
+            { title: 'Motivation', src: 'audio2.mp3' },
+            { title: 'Tristesse', src: 'audio3.mp3' }
+        ];
     }
 
     connectedCallback() {
         this.loadCSS();
-        this.trackList = this.shadowRoot.getElementById('trackList');
+        this.renderPlaylist();
     }
 
     loadCSS() {
@@ -22,27 +27,48 @@ class AudioPlaylist extends HTMLElement {
         this.shadowRoot.appendChild(link);
     }
 
-    setTracks(tracks) {
-        this.tracks = tracks;
-        this.renderPlaylist();
-    }
-
     renderPlaylist() {
-        this.trackList.innerHTML = '';
+        const list = this.shadowRoot.querySelector('#trackList');
+        list.innerHTML = '';
         this.tracks.forEach((track, index) => {
-            const li = document.createElement('li');
-            li.textContent = track.title;
-            li.addEventListener('click', () => this.dispatchEvent(new CustomEvent('selecttrack', { detail: index })));
-            this.trackList.appendChild(li);
+            const item = document.createElement('li');
+            item.textContent = track.title;
+            item.className = 'track-item';
+    
+            // Ajouter un événement pour sélectionner un élément
+            item.addEventListener('click', () => {
+                this.dispatchEvent(
+                    new CustomEvent('selecttrack', {
+                        detail: { index },
+                        bubbles: true,
+                        composed: true,
+                    })
+                );
+    
+                // Gérer l'état actif
+                this.highlightTrack(index);
+    
+                // Faire défiler jusqu'à l'élément sélectionné
+                item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            });
+    
+            list.appendChild(item);
         });
     }
 
     highlightTrack(index) {
-        const items = this.trackList.querySelectorAll('li');
+        const items = this.shadowRoot.querySelectorAll('.track-item');
         items.forEach((item, i) => {
-            item.classList.toggle('active', i === index);
+            if (i === index) {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
+            }
         });
     }
+    
+    
+    
 }
 
 customElements.define('audio-playlist', AudioPlaylist);

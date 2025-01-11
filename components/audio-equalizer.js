@@ -5,53 +5,64 @@ class AudioEqualizer extends HTMLElement {
         this.shadowRoot.innerHTML = `
         <div class="audio-equalizer">
             <div class="slider-container">
-                <label>Bass</label>
-                <webaudio-knob id="bassControl" 
-                src="../knobs/ST_Fader_230x69_128f.png" 
-                value="10" step="0.01" 
-                sprites="127"  
-                width=100
-                tooltip="Knob1 tooltip %d"></webaudio-knob>
-
-            </div>
-
-            <div class="slider-container">
-                <label>Mid-Bass</label>
-                <webaudio-knob id="midBassControl" 
-                src="../knobs/ST_Fader_230x69_128f.png" 
-                value="10" step="0.01" 
-                sprites="127"  
-                width=100
-                tooltip="Knob1 tooltip %d"></webaudio-knob>
+                <label for="bassControl">Bass</label>
+                <webaudio-knob 
+                    id="bassControl" 
+                    src="../knobs/ST_Fader_230x69_128f.png" 
+                    min="-10" max="10" value="0" step="0.1" 
+                    sprites="127"  
+                    width="100" 
+                    height="100" 
+                    tooltip="Bass %d dB">
+                </webaudio-knob>
             </div>
             <div class="slider-container">
-                <label>Mid</label>
-                <webaudio-knob id="midControl"
-                src="../knobs/ST_Fader_230x69_128f.png" 
-                value="10" step="0.01" 
-                sprites="127"  
-                width=100
-                tooltip="Knob1 tooltip %d"></webaudio-knob>
+                <label for="midBassControl">Mid-Bass</label>
+                <webaudio-knob 
+                    id="midBassControl" 
+                    src="../knobs/ST_Fader_230x69_128f.png" 
+                    min="-10" max="10" value="0" step="0.1" 
+                    sprites="127"  
+                    width="100" 
+                    height="100" 
+                    tooltip="Mid-Bass %d dB">
+                </webaudio-knob>
             </div>
             <div class="slider-container">
-                <label>Treble</label>
-                <webaudio-knob id="trebleControl" 
-                src="../knobs/ST_Fader_230x69_128f.png" 
-                value="10" step="0.01" 
-                sprites="127"  
-                width=100
-                tooltip="Knob1 tooltip %d"></webaudio-knob>
+                <label for="midControl">Mid</label>
+                <webaudio-knob 
+                    id="midControl" 
+                    src="../knobs/ST_Fader_230x69_128f.png" 
+                    min="-10" max="10" value="0" step="0.1" 
+                    sprites="127"  
+                    width="100" 
+                    height="100" 
+                    tooltip="Mid %d dB">
+                </webaudio-knob>
+            </div>
+            <div class="slider-container">
+                <label for="trebleControl">Treble</label>
+                <webaudio-knob 
+                    id="trebleControl" 
+                    src="../knobs/ST_Fader_230x69_128f.png" 
+                    min="-10" max="10" value="0" step="0.1" 
+                    sprites="127"  
+                    width="100" 
+                    height="100" 
+                    tooltip="Treble %d dB">
+                </webaudio-knob>
             </div>
         </div>
-    `;
+        `;
     }
 
     connectedCallback() {
         this.loadCSS();
-        this.shadowRoot.getElementById('bassControl').addEventListener('input', (e) => this.updateBass(e));
-        this.shadowRoot.getElementById('midBassControl').addEventListener('input', (e) => this.updateMidBass(e));
-        this.shadowRoot.getElementById('midControl').addEventListener('input', (e) => this.updateMid(e));
-        this.shadowRoot.getElementById('trebleControl').addEventListener('input', (e) => this.updateTreble(e));
+
+        window.addEventListener('audio-ready', (event) => {
+            const { audioContext, sourceNode } = event.detail;
+            this.initEqualizer(audioContext, sourceNode);
+        });
     }
 
     loadCSS() {
@@ -61,27 +72,52 @@ class AudioEqualizer extends HTMLElement {
         this.shadowRoot.appendChild(link);
     }
 
-    setFilters(filters) {
-        this.bassFilter = filters.bass;
-        this.midBassFilter = filters.midBass;
-        this.midFilter = filters.mid;
-        this.trebleFilter = filters.treble;
+    initEqualizer(audioContext, sourceNode) {
+        // Créez les filtres pour Bass, Mid-Bass, Mid, et Treble
+        this.filters = {
+            bass: this.createFilter(audioContext, 'lowshelf', 1000),
+            midBass: this.createFilter(audioContext, 'peaking', 5000),
+            mid: this.createFilter(audioContext, 'peaking', 1000),
+            treble: this.createFilter(audioContext, 'highshelf', 8000),
+        };
+
+        // Connecter les filtres en chaîne
+        sourceNode.connect(this.filters.bass);
+        this.filters.bass.connect(this.filters.midBass);
+        this.filters.midBass.connect(this.filters.mid);
+        this.filters.mid.connect(this.filters.treble);
+        this.filters.treble.connect(audioContext.destination);
+
+        this.audioContext = audioContext;
+
+        // Ajoutez des écouteurs pour chaque slider
+        this.addSliderListeners();
     }
 
-    updateBass(event) {
-        if (this.bassFilter) this.bassFilter.gain.value = event.target.value;
+    createFilter(audioContext, type, frequency) {
+        const filter = audioContext.createBiquadFilter();
+        filter.type = type;
+        filter.frequency.value = frequency;
+        filter.gain.value = 0; // Gain initial à 0 dB
+        return filter;
     }
 
-    updateMidBass(event) {
-        if (this.midBassFilter) this.midBassFilter.gain.value = event.target.value;
-    }
+    addSliderListeners() {
+        const sliders = {
+            bassControl: this.filters.bass,
+            midBassControl: this.filters.midBass,
+            midControl: this.filters.mid,
+            trebleControl: this.filters.treble,
+        };
 
-    updateMid(event) {
-        if (this.midFilter) this.midFilter.gain.value = event.target.value;
-    }
+        Object.keys(sliders).forEach((sliderId) => {
+            const slider = this.shadowRoot.getElementById(sliderId);
+            const filter = sliders[sliderId];
 
-    updateTreble(event) {
-        if (this.trebleFilter) this.trebleFilter.gain.value = event.target.value;
+            slider.addEventListener('input', (event) => {
+                filter.gain.value = parseFloat(event.target.value);
+            });
+        });
     }
 }
 

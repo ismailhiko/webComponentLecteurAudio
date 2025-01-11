@@ -1,0 +1,46 @@
+# Node modules
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build files
+dist/
+build/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Coverage files
+coverage/
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# Other
+*.bak
+*.old
+
+# Optional lock files
+package-lock.json
+yarn.lock
+
+# OS-specific files
+*.DS_Store
+*.vscode/

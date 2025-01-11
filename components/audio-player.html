@@ -1,7 +1,4 @@
-<!-- components/audio-player.html -->
 <div class="body">
-    <!-- Composant Playlist -->
-    <audio-playlist></audio-playlist>
 
     <!-- Élément audio principal -->
     <audio id="audio" controls>
@@ -14,32 +11,20 @@
         <webaudio-knob id="playButton" src="../knobs/play.png"></webaudio-knob>
         <button id="pauseButton">Pause</button>
         <button id="stopButton">Stop</button>
-        <button id="forwardButton">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 4v16l10-8-10-8zm-10 0v16l10-8-10-8z"/>
-            </svg>
-        </button>
+        <button id="forwardButton">Forward 10s</button>
     </div>
 
     <!-- Contrôle de volume -->
     <div>
-        <br>
         <label for="volumeControl">Volume</label>
-        <br> 
         <webaudio-knob 
             id="volumeControl" 
             min="0" 
             max="1" 
             step="0.01" 
             value="1" 
-            src="../knobs/LittlePhatty.png"
+            src="../knobs/LittlePhatty.png" 
             diameter="64">
         </webaudio-knob>
     </div>
-
-    <!-- Composant Égaliseur de fréquences -->
-    <audio-equalizer></audio-equalizer>
-
-    <!-- Composant Visualisation -->
-    <audio-visualizer></audio-visualizer>
 </div>

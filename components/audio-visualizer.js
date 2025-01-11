@@ -1,16 +1,33 @@
+import butterchurn from 'butterchurn';
+import butterchurnPresets from 'butterchurn-presets';
+
 class AudioVisualizer extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
-        this.canvas = document.createElement('canvas');
-        this.shadowRoot.appendChild(this.canvas);
+        this.shadowRoot.innerHTML = `
+            <div class="visualizer-container">
+                <canvas id="visualizerCanvas"></canvas>
+            </div>
+        `;
     }
 
     connectedCallback() {
         this.loadCSS();
-        this.canvasContext = this.canvas.getContext('2d');
-        this.resizeCanvas();
+
+        // Initialisation du canvas
+        this.canvas = this.shadowRoot.getElementById('visualizerCanvas');
+        this.canvas.width = 800; // Taille initiale
+        this.canvas.height = 600;
+
+        // Redimensionnement dynamique
         window.addEventListener('resize', () => this.resizeCanvas());
+
+        // Écoute de l'événement 'audio-ready'
+        window.addEventListener('audio-ready', (event) => {
+            const { audioContext, sourceNode } = event.detail;
+            this.initButterchurn(audioContext, sourceNode);
+        });
     }
 
     loadCSS() {
@@ -21,36 +38,34 @@ class AudioVisualizer extends HTMLElement {
     }
 
     resizeCanvas() {
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight;
+        this.canvas.width = this.offsetWidth || 800;
+        this.canvas.height = this.offsetHeight || 600;
+        if (this.butterchurn) {
+            this.butterchurn.setRendererSize(this.canvas.width, this.canvas.height);
+        }
     }
 
-    startVisualization(analyser) {
-        this.analyser = analyser;
-        this.draw();
+    initButterchurn(audioContext, audioNode) {
+        // Initialiser Butterchurn avec le contexte audio et le canvas
+        this.butterchurn = butterchurn.createVisualizer(audioContext, this.canvas, {
+            width: this.canvas.width,
+            height: this.canvas.height,
+        });
+
+        // Connecter le nœud audio
+        this.butterchurn.connectAudio(audioNode);
+
+
+        // Démarrer le rendu
+        this.renderButterchurn();
     }
 
-    draw() {
-        if (!this.analyser) return;
-        const bufferLength = this.analyser.frequencyBinCount;
-        const dataArray = new Uint8Array(bufferLength);
-
-        const drawLoop = () => {
-            requestAnimationFrame(drawLoop);
-            this.analyser.getByteFrequencyData(dataArray);
-            this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-            const barWidth = (this.canvas.width / bufferLength) * 2.5;
-            let barHeight;
-            let x = 0;
-            for (let i = 0; i < bufferLength; i++) {
-                barHeight = dataArray[i];
-                this.canvasContext.fillStyle = `rgba(255, 255, 255, 0.7)`;
-                this.canvasContext.fillRect(x, this.canvas.height - barHeight, barWidth, barHeight);
-                x += barWidth + 1;
-            }
+    renderButterchurn() {
+        const renderLoop = () => {
+            requestAnimationFrame(renderLoop);
+            this.butterchurn.render();
         };
-        drawLoop();
+        renderLoop();
     }
 }
 
