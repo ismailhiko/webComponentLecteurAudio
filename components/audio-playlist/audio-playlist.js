@@ -18,6 +18,7 @@ class AudioPlaylist extends HTMLElement {
     connectedCallback() {
         this.loadCSS();
         this.renderPlaylist();
+        
     }
 
     loadCSS() {

@@ -8,11 +8,12 @@
 </head>
 <body>
     <h1>Lecteur Audio Modulaire</h1>
-    <audio-playlist></audio-playlist>
-    <audio-player playlist="true" eq="true"></audio-player>
-    <audio-equalizer></audio-equalizer>
-    <audio-visualizer></audio-visualizer>
-
+    <div class="flex-container">
+        <audio-playlist ></audio-playlist>
+        <audio-player  playlist="true" eq="true"></audio-player>
+        <audio-equalizer ></audio-equalizer>
+        <audio-visualizer ></audio-visualizer>
+    </div>
 
     <!-- Importation des composants JavaScript -->
     <script src="components/webaudio-controls.js"></script>

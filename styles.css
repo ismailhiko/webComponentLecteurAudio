@@ -4,3 +4,35 @@ body {
     color: white;
     text-align: center;
 }
+
+/* Conteneur flexible */
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Espacement entre les composants */
+    align-items: flex-start; /* Alignement des éléments au début */
+    justify-content: center; /* Centrer les composants */
+    padding: 20px;
+}
+
+/* Composants flexibles */
+.flex-container > * {
+    flex: 0 1 auto; /* Chaque composant prend sa taille minimale */
+    max-width: 300px; /* Limite de largeur (ajustez si nécessaire) */
+    min-width: 150px; /* Taille minimale */
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #222;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    position: relative; /* Pour permettre le positionnement */
+}
+
+
+
+/* Effet au survol */
+.flex-container > *:hover {
+    transform: scale(1.05);
+    cursor: grab;
+}

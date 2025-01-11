@@ -1,23 +1,26 @@
 .audio-equalizer {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+    display: flex; /* Disposition verticale pour le conteneur principal */
+    flex-direction: column; /* Empiler les sliders verticalement */
+    justify-content: flex-start;
+    align-items: flex-start; /* Aligner les sliders à gauche */
     padding: 10px;
     background-color: #222;
     border: 1px solid #444;
     border-radius: 5px;
     color: #fff;
+    gap: 10px; /* Espacement entre chaque slider-container */
 }
 
 .slider-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0 10px;
+    display: flex; /* Disposition en ligne pour le label et le slider */
+    align-items: center; /* Aligner le texte du label et le slider verticalement */
+    justify-content: flex-start; /* Garder tout aligné à gauche */
+    gap: 10px; /* Espacement entre le label et le slider */
 }
 
 label {
-    margin-bottom: 8px;
     font-size: 14px;
     color: #ff9900;
+    text-align: left; /* Aligner le texte à gauche */
+    min-width: 100px; /* Largeur minimum pour un alignement uniforme */
 }
