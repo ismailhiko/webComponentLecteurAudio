@@ -2,12 +2,6 @@ class AudioPlaylist extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
-        this.shadowRoot.innerHTML = `
-            <div id="playlist">
-                <h3>Playlist</h3>
-                <ul id="trackList"></ul>
-            </div>
-        `;
         this.tracks = [
             { title: 'Calme', src: 'audio.mp3' },
             { title: 'Motivation', src: 'audio2.mp3' },
@@ -17,8 +11,19 @@ class AudioPlaylist extends HTMLElement {
     }
 
     connectedCallback() {
+        this.loadHTML();
         this.loadCSS();
         this.renderPlaylist();
+    }
+
+    async loadHTML() {
+        try {
+            const response = await fetch('https://ismailhiko.github.io/webComponentLecteurAudio/components/audio-playlist/audio-playlist.html');
+            const html = await response.text();
+            this.shadowRoot.innerHTML = html;
+        } catch (error) {
+            console.error('Erreur lors du chargement du fichier HTML:', error);
+        }
     }
 
     loadCSS() {

@@ -48,7 +48,7 @@ class AudioPlayer extends HTMLElement {
     }
 
     async loadHTML() {
-        const response = await fetch('components/audio-player/audio-player.html');
+        const response = await fetch('./components/audio-player/audio-player.html');
         const html = await response.text();
         this.shadowRoot.innerHTML = html;
     }
