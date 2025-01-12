@@ -33,15 +33,12 @@ Voici les principaux fichiers et dossiers :
 │   │   └── audio-player.css
 │   ├── audio-playlist/
 │   │   ├── audio-playlist.js
-│   │   ├── audio-playlist.html
 │   │   └── audio-playlist.css
 │   ├── audio-equalizer/
 │   │   ├── audio-equalizer.js
-│   │   ├── audio-equalizer.html
 │   │   └── audio-equalizer.css
 │   └── audio-visualizer/
 │       ├── audio-visualizer.js
-│       ├── audio-visualizer.html
 │       └── audio-visualizer.css
 ├── index.html
 ├── styles.css
@@ -54,7 +51,7 @@ Voici les principaux fichiers et dossiers :
 
 - **Web Components** :
   - Utilisation des API natives (Custom Elements, Shadow DOM).
-- **JavaScript ES6+** :
+- **JavaScript** :
   - Événements personnalisés, gestion dynamique du DOM.
 - **Web Audio API** :
   - Création et manipulation des nœuds audio pour l’égaliseur et le visualiseur.
@@ -86,10 +83,7 @@ cd WebComponentsAudioPlayer
 
 Ouvrez le fichier `index.html` dans votre navigateur.
 ou
-```bash
-npm i
-npx vite
-```
+lancer avec live serve
 
 
 ### 3. Inclure les composants dans votre propre projet
@@ -140,14 +134,7 @@ Une vidéo explicative décrivant le projet est disponible ici :
 
 ---
 
-## Limitations et améliorations possibles
 
-- **Améliorations potentielles :**
-  - Ajout de nouvelles visualisations pour le visualiseur.
-  - Support pour les formats audio supplémentaires.
-
-- **Limitations actuelles :**
-  - Les fichiers audio doivent être disponibles avec les permissions CORS pour éviter les erreurs.
 
 
 ---
