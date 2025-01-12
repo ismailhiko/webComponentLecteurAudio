@@ -1,63 +1,156 @@
-# Lecteur Audio avec Web Components
+# WebComponents Audio Player
 
-Ce projet est un lecteur audio interactif réalisé avec des **Web Components** et l'**API Web Audio**. Il permet de jouer des pistes audio avec des contrôles avancés, tels qu'un visualiseur de fréquences, un égaliseur de fréquences, et une playlist dynamique.
+Un lecteur audio modulaire basé sur des **Web Components**, intégrant des fonctionnalités avancées comme une **playlist interactive**, un **égaliseur graphique**, et un **visualiseur audio**. Ce projet offre une solution personnalisable et extensible pour la lecture audio.
 
-## Fonctionnalités
+---
 
-### 1. Composant Principal : `audio-player`
-Le composant `audio-player` est l'élément central qui orchestre l'ensemble des composants du lecteur. Il est responsable de l'initialisation de l'audio, du contrôle de la lecture, du réglage du volume, et de la gestion de la piste en cours.
+## Fonctionnalités principales
 
-- **Lecture / Pause / Arrêt / Avance rapide** : Contrôle de base pour jouer, mettre en pause, arrêter et avancer de 10 secondes la piste audio.
-- **Volume** : Curseur de réglage du volume, qui modifie le gain général de l'audio.
-- **Sélection de Piste** : Réception de la piste choisie dans la playlist et gestion du changement de piste.
+- **Lecteur audio intégré** : Contrôles de base (lecture, pause, arrêt, avance rapide).
+- **Playlist interactive** :
+  - Gestion des morceaux avec drag-and-drop.
+  - Sélection et surlignage des morceaux actifs.
+- **Égaliseur graphique** :
+  - Contrôle des fréquences audio via des sliders interactifs.
+  - Fonctionnalité d’égalisation en temps réel.
+- **Visualiseur audio** :
+  - Animations dynamiques synchronisées avec l’audio.
+- **Conception modulaire** :
+  - Les composants sont autonomes et peuvent être intégrés indépendamment.
 
-### 2. Composant Playlist : `audio-playlist`
-Le composant `audio-playlist` affiche une liste de pistes disponibles et permet à l'utilisateur de sélectionner la piste de son choix.
+---
 
-- **Affichage de la Playlist** : Affiche les titres des pistes ajoutées au lecteur.
-- **Sélection de la Piste** : En cliquant sur un titre, l'utilisateur peut sélectionner la piste à jouer. Le composant `audio-player` se charge ensuite de charger et lire cette piste.
-- **Surbrillance de la Piste Active** : La piste actuellement en cours de lecture est surlignée pour indiquer qu'elle est en cours de lecture.
+## Structure du projet
 
-### 3. Composant Égaliseur de Fréquences : `audio-equalizer`
-Le composant `audio-equalizer` permet de contrôler les bandes de fréquences de l'audio (basses, moyennes et aigus) pour un ajustement sonore personnalisé.
+Voici les principaux fichiers et dossiers :
 
-- **Curseurs de Fréquence** : Comprend des curseurs pour les fréquences basses, médianes et hautes (basses, mid-bass, mid, et treble) permettant de modifier la tonalité de l'audio en temps réel.
-- **Application de Filtres** : Utilisation de filtres biquad pour chaque bande de fréquence. Les valeurs des curseurs contrôlent les gains des filtres pour un ajustement dynamique.
+```
+.
+├── components/
+│   ├── audio-player/
+│   │   ├── audio-player.js
+│   │   ├── audio-player.html
+│   │   └── audio-player.css
+│   ├── audio-playlist/
+│   │   ├── audio-playlist.js
+│   │   ├── audio-playlist.html
+│   │   └── audio-playlist.css
+│   ├── audio-equalizer/
+│   │   ├── audio-equalizer.js
+│   │   ├── audio-equalizer.html
+│   │   └── audio-equalizer.css
+│   └── audio-visualizer/
+│       ├── audio-visualizer.js
+│       ├── audio-visualizer.html
+│       └── audio-visualizer.css
+├── index.html
+├── styles.css
+└── README.md
+```
 
-### 4. Composant Visualisation : `audio-visualizer`
-Le composant `audio-visualizer` affiche la visualisation en temps réel des fréquences audio sous forme de barres animées.
+---
 
-- **Affichage en Temps Réel** : Utilisation de l’AnalyserNode de l'API Web Audio pour analyser les fréquences et générer un graphique de visualisation en temps réel.
-- **Animation Synchronisée** : L'animation est mise à jour en fonction de l'intensité des fréquences audio jouées, ce qui donne une représentation visuelle dynamique et interactive de la musique.
+## Technologies utilisées
 
-## Technologies Utilisées
+- **Web Components** :
+  - Utilisation des API natives (Custom Elements, Shadow DOM).
+- **JavaScript ES6+** :
+  - Événements personnalisés, gestion dynamique du DOM.
+- **Web Audio API** :
+  - Création et manipulation des nœuds audio pour l’égaliseur et le visualiseur.
+- **HTML & CSS** :
+  - Interface utilisateur avec styles personnalisés et responsive.
 
-- **Web Components** : Pour la modularité et la réutilisation de code avec des composants personnalisés.
-- **API Web Audio** : Pour le contrôle de l'audio, la création de filtres d'égaliseur, et l'affichage en temps réel des fréquences.
-- **HTML5 & CSS3** : Pour la structure et le style des composants.
-  
-## Comment Utiliser
+---
 
-1. **Installation** : Clonez le projet et placez-le sur un serveur local pour assurer le bon fonctionnement des composants HTML et de l'API Web Audio.
-2. **Chargement de Pistes** : Ajoutez vos fichiers audio dans le dossier approprié et mettez à jour la liste des pistes dans le composant `audio-player.js`.
-3. **Contrôle de l'Audio** : Utilisez les boutons de contrôle pour lire, mettre en pause, avancer et ajuster le volume et les fréquences.
-  
-## Structure des Fichiers
+## Hébergement
 
-- `components/audio-player.js` : Composant principal qui gère l'audio et orchestre les sous-composants.
-- `components/audio-playlist.js` : Composant de la playlist.
-- `components/audio-equalizer.js` : Composant de l'égaliseur de fréquences.
-- `components/audio-visualizer.js` : Composant de visualisation des fréquences.
-- `components/audio-player.css` : Style principal du lecteur audio.
-- `components/audio-equalizer.css`, `components/audio-playlist.css`, `components/audio-visualizer.css` : Styles pour chaque sous-composant.
+Ce projet est hébergé sur **GitHub Pages** et peut être consulté ici :  
+👉 **[Lien GitHub Pages](https://ismailhiko.github.io/webComponentLecteurAudio)**
 
-## Exemple d'Utilisation
+Pour tester le projet directement dans votre navigateur, vous pouvez également utiliser **CodePen** :  
+👉 **[Lien CodePen](https://codepen.io/ismailhiko)**
 
-Une fois le lecteur lancé, vous pouvez :
-1. Choisir une piste depuis la playlist.
-2. Utiliser les curseurs de l'égaliseur pour ajuster les basses, moyennes, et hautes fréquences.
-3. Observer l'animation de visualisation en temps réel qui réagit à la musique en cours de lecture.
+---
 
-## Auteurs
+## Installation et lancement
 
-Ce projet a été développé pour illustrer l'intégration des Web Components avec l'API Web Audio.
+### 1. Cloner le projet
+
+```bash
+git clone https://github.com/votre-utilisateur/WebComponentsAudioPlayer.git
+cd WebComponentsAudioPlayer
+```
+
+### 2. Lancer en local
+
+Ouvrez le fichier `index.html` dans votre navigateur.
+ou
+```bash
+npm i
+npx vite
+```
+
+
+### 3. Inclure les composants dans votre propre projet
+
+Ajoutez les scripts suivants dans votre HTML :
+
+```html
+<script src="https://ismailhiko.github.io/WebComponentsAudioPlayer/components/audio-player/audio-player.js"></script>
+<script src="https://ismailhiko.github.io/WebComponentsAudioPlayer/components/audio-playlist/audio-playlist.js"></script>
+<script src="https://ismailhiko.github.io/WebComponentsAudioPlayer/components/audio-equalizer/audio-equalizer.js"></script>
+<script src="https://ismailhiko.github.io/WebComponentsAudioPlayer/components/audio-visualizer/audio-visualizer.js"></script>
+```
+
+Ajoutez ensuite les composants à votre page :
+
+```html
+<audio-player src="audio.mp3"></audio-player>
+<audio-playlist></audio-playlist>
+<audio-equalizer></audio-equalizer>
+<audio-visualizer></audio-visualizer>
+```
+
+---
+
+## Démonstration vidéo
+
+Une vidéo explicative décrivant le projet est disponible ici :  
+👉 **[Lien vers la vidéo](https://votre-lien-youtube-ou-autre-plateforme.com)**
+
+---
+
+## Fonctionnement détaillé
+
+### 1. Audio Player
+- Contrôles : Lecture, pause, arrêt, avance rapide.
+- Gestion des volumes via un bouton rotatif.
+
+### 2. Playlist
+- Les morceaux peuvent être réarrangés grâce au **drag-and-drop**.
+- Sélectionne et surligne automatiquement le morceau actif.
+
+### 3. Égaliseur
+- Sliders interactifs pour ajuster les basses, les moyennes et les hautes fréquences.
+- Connecté au contexte audio pour un rendu en temps réel.
+
+### 4. Visualiseur
+- Affiche des animations basées sur les fréquences audio en temps réel.
+
+---
+
+## Limitations et améliorations possibles
+
+- **Améliorations potentielles :**
+  - Ajout de nouvelles visualisations pour le visualiseur.
+  - Support pour les formats audio supplémentaires.
+
+- **Limitations actuelles :**
+  - Les fichiers audio doivent être disponibles avec les permissions CORS pour éviter les erreurs.
+
+
+---
+
+Si vous avez des questions ou des suggestions, n'hésitez pas à ouvrir une **issue** sur GitHub ou à me contacter directement ! 🚀
+
