@@ -8,4 +8,6 @@ export default defineConfig({
     server: {
         open: true, // Ouvre automatiquement l'application dans le navigateur
     },
+    base: '/<webComponentLecteurAudio>/', 
+    plugins: []
 });

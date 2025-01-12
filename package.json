@@ -4,8 +4,10 @@
   "description": "Ce projet est un lecteur audio interactif réalisé avec des **Web Components** et l'**API Web Audio**. Il permet de jouer des pistes audio avec des contrôles avancés, tels qu'un visualiseur de fréquences, un égaliseur de fréquences, et une playlist dynamique.",
   "main": "vite.config.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ismailhiko/webComponentLecteurAudio.git"
