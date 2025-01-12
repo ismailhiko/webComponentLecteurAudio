@@ -8,7 +8,7 @@ class AudioEqualizer extends HTMLElement {
                 <label for="bassControl">Bass</label>
                 <webaudio-knob 
                     id="bassControl" 
-                    src="../knobs/ST_Fader_230x69_128f.png" 
+                    src="../assets/knobs/ST_Fader_230x69_128f.png" 
                     min="-10" max="10" value="0" step="0.1" 
                     sprites="127"  
                     width="100" 
@@ -20,7 +20,7 @@ class AudioEqualizer extends HTMLElement {
                 <label for="midBassControl">Mid-Bass</label>
                 <webaudio-knob 
                     id="midBassControl" 
-                    src="../knobs/ST_Fader_230x69_128f.png" 
+                    src="../assets/knobs/ST_Fader_230x69_128f.png" 
                     min="-10" max="10" value="0" step="0.1" 
                     sprites="127"  
                     width="100" 
@@ -32,7 +32,7 @@ class AudioEqualizer extends HTMLElement {
                 <label for="midControl">Mid</label>
                 <webaudio-knob 
                     id="midControl" 
-                    src="../knobs/ST_Fader_230x69_128f.png" 
+                    src="../assets/knobs/ST_Fader_230x69_128f.png" 
                     min="-10" max="10" value="0" step="0.1" 
                     sprites="127"  
                     width="100" 
@@ -44,7 +44,7 @@ class AudioEqualizer extends HTMLElement {
                 <label for="trebleControl">Treble</label>
                 <webaudio-knob 
                     id="trebleControl" 
-                    src="../knobs/ST_Fader_230x69_128f.png" 
+                    src="../assets/knobs/ST_Fader_230x69_128f.png" 
                     min="-10" max="10" value="0" step="0.1" 
                     sprites="127"  
                     width="100" 
