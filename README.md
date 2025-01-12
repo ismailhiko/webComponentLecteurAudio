@@ -33,15 +33,12 @@ Voici les principaux fichiers et dossiers :
 │   │   └── audio-player.css
 │   ├── audio-playlist/
 │   │   ├── audio-playlist.js
-│   │   ├── audio-playlist.html
 │   │   └── audio-playlist.css
 │   ├── audio-equalizer/
 │   │   ├── audio-equalizer.js
-│   │   ├── audio-equalizer.html
 │   │   └── audio-equalizer.css
 │   └── audio-visualizer/
 │       ├── audio-visualizer.js
-│   │   ├── audio-visualizer.html
 │       └── audio-visualizer.css
 ├── index.html
 ├── styles.css

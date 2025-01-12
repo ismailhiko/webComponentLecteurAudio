@@ -1,35 +1,19 @@
 class AudioVisualizer extends HTMLElement {
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' });
+        const shadow = this.attachShadow({ mode: 'open' });
 
-        this.loadHTML();
-        this.loadCSS();
+        this.canvas = document.createElement('canvas');
+        this.canvas.id = 'visualizer-canvas';
+
+        const styleLink = document.createElement('link');
+        styleLink.rel = 'stylesheet';
+        styleLink.href = 'components/audio-visualizer/audio-visualizer.css';
+
+        shadow.appendChild(styleLink);
+        shadow.appendChild(this.canvas);
 
         this.visualizer = null;
-    }
-
-    async loadHTML() {
-        try {
-            const response = await fetch('https://ismailhiko.github.io/webComponentLecteurAudio/components/audio-visualizer/audio-visualizer.html');
-            const html = await response.text();
-            this.shadowRoot.innerHTML = html;
-            this.canvas = this.shadowRoot.querySelector('#visualizer-canvas');
-        } catch (error) {
-            console.error('Erreur lors du chargement du fichier HTML:', error);
-        }
-    }
-
-    async loadCSS() {
-        try {
-            const response = await fetch('https://ismailhiko.github.io/webComponentLecteurAudio/components/audio-visualizer/audio-visualizer.css');
-            const css = await response.text();
-            const style = document.createElement('style');
-            style.textContent = css;
-            this.shadowRoot.appendChild(style);
-        } catch (error) {
-            console.error('Erreur lors du chargement du fichier CSS:', error);
-        }
     }
 
     connectedCallback() {

@@ -2,26 +2,67 @@ class AudioEqualizer extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
+        this.shadowRoot.innerHTML = `
+        <div class="audio-equalizer">
+            <div class="slider-container">
+                <label for="bassControl">Bass</label>
+                <webaudio-knob 
+                    id="bassControl" 
+                    src="https://ismailhiko.github.io/webComponentLecteurAudio/assets/knobs/ST_Fader_230x69_128f.png" 
+                    min="-10" max="10" value="0" step="0.1" 
+                    sprites="127"  
+                    width="100" 
+                    height="100" 
+                    tooltip="Bass %d dB">
+                </webaudio-knob>
+            </div>
+            <div class="slider-container">
+                <label for="midBassControl">Mid-Bass</label>
+                <webaudio-knob 
+                    id="midBassControl" 
+                    src="https://ismailhiko.github.io/webComponentLecteurAudio/assets/knobs/ST_Fader_230x69_128f.png" 
+                    min="-10" max="10" value="0" step="0.1" 
+                    sprites="127"  
+                    width="100" 
+                    height="100" 
+                    tooltip="Mid-Bass %d dB">
+                </webaudio-knob>
+            </div>
+            <div class="slider-container">
+                <label for="midControl">Mid</label>
+                <webaudio-knob 
+                    id="midControl" 
+                    src="https://ismailhiko.github.io/webComponentLecteurAudio/assets/knobs/ST_Fader_230x69_128f.png" 
+                    min="-10" max="10" value="0" step="0.1" 
+                    sprites="127"  
+                    width="100" 
+                    height="100" 
+                    tooltip="Mid %d dB">
+                </webaudio-knob>
+            </div>
+            <div class="slider-container">
+                <label for="trebleControl">Treble</label>
+                <webaudio-knob 
+                    id="trebleControl" 
+                    src="https://ismailhiko.github.io/webComponentLecteurAudio/assets/knobs/ST_Fader_230x69_128f.png" 
+                    min="-10" max="10" value="0" step="0.1" 
+                    sprites="127"  
+                    width="100" 
+                    height="100" 
+                    tooltip="Treble %d dB">
+                </webaudio-knob>
+            </div>
+        </div>
+        `;
     }
 
     connectedCallback() {
-        this.loadHTML();
         this.loadCSS();
 
         window.addEventListener('audio-ready', (event) => {
             const { audioContext, sourceNode } = event.detail;
             this.initEqualizer(audioContext, sourceNode);
         });
-    }
-
-    async loadHTML() {
-        try {
-            const response = await fetch('https://ismailhiko.github.io/webComponentLecteurAudio/components/audio-equalizer/audio-equalizer.html');
-            const html = await response.text();
-            this.shadowRoot.innerHTML = html;
-        } catch (error) {
-            console.error('Erreur lors du chargement du fichier HTML:', error);
-        }
     }
 
     loadCSS() {
