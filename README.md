@@ -66,7 +66,7 @@ Voici les principaux fichiers et dossiers :
 ## Hébergement
 
 Ce projet est hébergé sur **GitHub Pages** et peut être consulté ici :  
-👉 **[Lien GitHub Pages](https://ismailhiko.github.io/WebComponentsAudioPlayer)**
+👉 **[Lien GitHub Pages](https://ismailhiko.github.io/webComponentLecteurAudio)**
 
 Pour tester le projet directement dans votre navigateur, vous pouvez également utiliser **CodePen** :  
 👉 **[Lien CodePen](https://codepen.io/ismailhiko)**
