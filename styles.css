@@ -1,5 +1,5 @@
 body {
-    background: url('../assets/images/giphy.gif') repeat; /* Ajouter le GIF en arrière-plan */
+    background: url('https://ismailhiko.github.io/webComponentLecteurAudio/assets/images/giphy.gif') repeat; /* Ajouter le GIF en arrière-plan */
     background-size: cover; /* Couvrir toute la fenêtre */
     color: white;
     text-align: center;
