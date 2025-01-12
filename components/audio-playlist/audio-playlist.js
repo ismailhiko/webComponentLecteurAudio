@@ -13,12 +13,12 @@ class AudioPlaylist extends HTMLElement {
             { title: 'Motivation', src: 'audio2.mp3' },
             { title: 'Tristesse', src: 'audio3.mp3' }
         ];
+        this.activeTrackIndex = null; // Stocke l'index de l'élément actif
     }
 
     connectedCallback() {
         this.loadCSS();
         this.renderPlaylist();
-        
     }
 
     loadCSS() {
@@ -31,11 +31,21 @@ class AudioPlaylist extends HTMLElement {
     renderPlaylist() {
         const list = this.shadowRoot.querySelector('#trackList');
         list.innerHTML = '';
+
         this.tracks.forEach((track, index) => {
             const item = document.createElement('li');
             item.textContent = track.title;
             item.className = 'track-item';
+            item.setAttribute('draggable', 'true'); // Rendre chaque élément draggable
+            item.dataset.index = index; // Sauvegarder l'index dans un attribut
+
+            // Ajouter les événements de drag-and-drop
+            item.addEventListener('dragstart', (event) => this.handleDragStart(event, index));
+            item.addEventListener('dragover', (event) => this.handleDragOver(event));
+            item.addEventListener('drop', (event) => this.handleDrop(event, index));
+
             item.addEventListener('click', () => {
+                this.activeTrackIndex = index; // Mettre à jour l'élément actif
                 this.dispatchEvent(
                     new CustomEvent('selecttrack', {
                         detail: { index },
@@ -46,7 +56,61 @@ class AudioPlaylist extends HTMLElement {
                 this.highlightTrack(index);
                 item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             });
+
+            // Appliquer la classe "active" si l'élément est actif
+            if (index === this.activeTrackIndex) {
+                item.classList.add('active');
+            }
+
             list.appendChild(item);
+        });
+    }
+
+    handleDragStart(event, index) {
+        event.dataTransfer.setData('text/plain', index); // Sauvegarder l'index de l'élément
+        event.target.classList.add('dragging'); // Ajouter une classe pour indiquer qu'il est en train d'être déplacé
+    }
+
+    handleDragOver(event) {
+        event.preventDefault(); // Nécessaire pour permettre le drop
+        event.target.classList.add('droppable'); // Ajouter une classe visuelle au survol
+    }
+
+    handleDrop(event, newIndex) {
+        event.preventDefault();
+
+        const oldIndex = event.dataTransfer.getData('text/plain'); // Récupérer l'index de l'élément déplacé
+
+        if (oldIndex !== newIndex) {
+            // Réorganiser la liste
+            const movedTrack = this.tracks.splice(oldIndex, 1)[0];
+            this.tracks.splice(newIndex, 0, movedTrack);
+
+            // Mettre à jour l'index actif si nécessaire
+            if (this.activeTrackIndex === parseInt(oldIndex)) {
+                this.activeTrackIndex = parseInt(newIndex);
+            } else if (this.activeTrackIndex > parseInt(oldIndex) && this.activeTrackIndex <= parseInt(newIndex)) {
+                this.activeTrackIndex -= 1;
+            } else if (this.activeTrackIndex < parseInt(oldIndex) && this.activeTrackIndex >= parseInt(newIndex)) {
+                this.activeTrackIndex += 1;
+            }
+
+            // Rendre la liste à jour
+            this.renderPlaylist();
+
+            // Émettre un événement pour notifier que la playlist a été réorganisée
+            this.dispatchEvent(
+                new CustomEvent('playlistreordered', {
+                    detail: { tracks: this.tracks },
+                    bubbles: true,
+                    composed: true,
+                })
+            );
+        }
+
+        // Nettoyer les classes visuelles
+        this.shadowRoot.querySelectorAll('.track-item').forEach((item) => {
+            item.classList.remove('dragging', 'droppable');
         });
     }
 

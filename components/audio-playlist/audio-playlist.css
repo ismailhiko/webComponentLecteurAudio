@@ -26,17 +26,32 @@ h3 {
 .track-item {
     padding: 10px;
     margin: 5px 0;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    text-align: center;
-    font-size: 16px;
+    background-color: #333;
+    color: white;
+    border: 1px solid #555;
+    border-radius: 5px;
+    cursor: grab;
+    transition: background-color 0.3s ease;
 }
 
 .track-item:hover {
-    background-color: #f0f0f0;
-    transform: scale(1.05);
-    color: #000;
+    background-color: #444;
 }
+
+.track-item.dragging {
+    opacity: 0.5;
+}
+
+.track-item.droppable {
+    border: 2px dashed #888;
+    background-color: #222;
+}
+
+.track-item.active {
+    background-color: #0066ff;
+    color: white;
+}
+
 
 .track-item.active {
     background-color: #007BFF; /* Couleur bleue pour l'élément actif */
