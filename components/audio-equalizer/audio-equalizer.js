@@ -8,7 +8,7 @@ class AudioEqualizer extends HTMLElement {
                 <label for="bassControl">Bass</label>
                 <webaudio-knob 
                     id="bassControl" 
-                    src="src="https://ismailhiko.github.io/webComponentLecteurAudio/assets/knobs/ST_Fader_230x69_128f.png" 
+                    src="https://ismailhiko.github.io/webComponentLecteurAudio/assets/knobs/ST_Fader_230x69_128f.png" 
                     min="-10" max="10" value="0" step="0.1" 
                     sprites="127"  
                     width="100" 
