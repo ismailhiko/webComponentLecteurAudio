@@ -4,27 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lecteur Audio Modulaire</title>
-    <!-- CSS -->
-    <link rel="stylesheet" href="https://ismailhiko.github.io/webComponentLecteurAudio/styles.css">
-    
-    <!-- Librairies externes -->
-    <script type="text/javascript" src="https://unpkg.com/butterchurn"></script>
-    <script type="text/javascript" src="https://unpkg.com/butterchurn-presets"></script>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <h1>Lecteur Audio Modulaire</h1>
     <div class="flex-container">
-        <audio-playlist></audio-playlist>
-        <audio-player playlist="true" eq="true"></audio-player>
-        <audio-equalizer></audio-equalizer>
-        <audio-visualizer></audio-visualizer>
+        <audio-playlist ></audio-playlist>
+        <audio-player  playlist="true" eq="true"></audio-player>
+        <audio-equalizer ></audio-equalizer>
+        <audio-visualizer ></audio-visualizer>
     </div>
 
-    <!-- Web Components -->
-    <script src="https://ismailhiko.github.io/webComponentLecteurAudio/components/webaudio-controls.js"></script>
-    <script type="module" src="https://ismailhiko.github.io/webComponentLecteurAudio/components/audio-playlist/audio-playlist.js"></script>
-    <script type="module" src="https://ismailhiko.github.io/webComponentLecteurAudio/components/audio-player/audio-player.js"></script>
-    <script type="module" src="https://ismailhiko.github.io/webComponentLecteurAudio/components/audio-equalizer/audio-equalizer.js"></script>
-    <script type="module" src="https://ismailhiko.github.io/webComponentLecteurAudio/components/audio-visualizer/audio-visualizer.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/butterchurn"></script>
+    <script type="text/javascript" src="https://unpkg.com/butterchurn-presets"></script>
+    
+    <!-- Importation des composants JavaScript -->
+    <script src="components/webaudio-controls.js"></script>
+    <script type="module" src="components/audio-playlist/audio-playlist.js"></script>
+    <script type="module" src="components/audio-player/audio-player.js"></script>
+    <script type="module" src="components/audio-equalizer/audio-equalizer.js"></script>
+    <script type="module" src="components/audio-visualizer/audio-visualizer.js"></script>
 </body>
 </html>
