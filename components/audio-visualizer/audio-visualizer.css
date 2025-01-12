@@ -7,11 +7,17 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     overflow: hidden;
 }
+:host {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
 
 canvas {
     display: block;
+    width: 100%;
+    height: 100%;
     background: black;
-    height: 300px;
 }
 
 .controls {

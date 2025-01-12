@@ -1,71 +1,82 @@
-import butterchurn from 'butterchurn';
-import butterchurnPresets from 'butterchurn-presets';
-
 class AudioVisualizer extends HTMLElement {
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' });
-        this.shadowRoot.innerHTML = `
-            <div class="visualizer-container">
-                <canvas id="visualizerCanvas"></canvas>
-            </div>
-        `;
+        const shadow = this.attachShadow({ mode: 'open' });
+
+        this.canvas = document.createElement('canvas');
+        this.canvas.id = 'visualizer-canvas';
+
+        const styleLink = document.createElement('link');
+        styleLink.rel = 'stylesheet';
+        styleLink.href = 'components/audio-visualizer/audio-visualizer.css';
+
+        shadow.appendChild(styleLink);
+        shadow.appendChild(this.canvas);
+
+        this.visualizer = null;
     }
 
     connectedCallback() {
-        this.loadCSS();
-
-        // Initialisation du canvas
-        this.canvas = this.shadowRoot.getElementById('visualizerCanvas');
-        this.canvas.width = 800; // Taille initiale
-        this.canvas.height = 600;
-
-        // Redimensionnement dynamique
-        window.addEventListener('resize', () => this.resizeCanvas());
-
-        // Écoute de l'événement 'audio-ready'
         window.addEventListener('audio-ready', (event) => {
             const { audioContext, sourceNode } = event.detail;
-            this.initButterchurn(audioContext, sourceNode);
+            this.initVisualizer(audioContext, sourceNode);
         });
+
+        this.handleResize();
     }
 
-    loadCSS() {
-        const link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = 'components/audio-visualizer/audio-visualizer.css';
-        this.shadowRoot.appendChild(link);
-    }
-
-    resizeCanvas() {
-        this.canvas.width = this.offsetWidth || 800;
-        this.canvas.height = this.offsetHeight || 600;
-        if (this.butterchurn) {
-            this.butterchurn.setRendererSize(this.canvas.width, this.canvas.height);
+    initVisualizer(audioContext, sourceNode) {
+        try {
+            this.visualizer = butterchurn.default.createVisualizer(audioContext, this.canvas, {
+                width: this.canvas.clientWidth,
+                height: this.canvas.clientHeight,
+            });
+    
+            this.visualizer.connectAudio(sourceNode);
+            
+            this.startRendering();
+        } catch (error) {
+            console.error('Error initializing visualizer:', error);
         }
     }
 
-    initButterchurn(audioContext, audioNode) {
-        // Initialiser Butterchurn avec le contexte audio et le canvas
-        this.butterchurn = butterchurn.createVisualizer(audioContext, this.canvas, {
-            width: this.canvas.width,
-            height: this.canvas.height,
-        });
+    handleResize() {
+        const resizeCanvas = () => {
+            this.canvas.width = this.offsetWidth || 800;
+            this.canvas.height = this.offsetHeight || 600;
 
-        // Connecter le nœud audio
-        this.butterchurn.connectAudio(audioNode);
+            if (this.visualizer) {
+                this.visualizer.setRendererSize(this.canvas.width, this.canvas.height);
+            }
+        };
 
-
-        // Démarrer le rendu
-        this.renderButterchurn();
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
     }
 
-    renderButterchurn() {
-        const renderLoop = () => {
-            requestAnimationFrame(renderLoop);
-            this.butterchurn.render();
-        };
-        renderLoop();
+    startRendering() {
+        if (!this.isRendering) {
+            this.isRendering = true;
+            const render = () => {
+                if (this.visualizer && this.isRendering) {
+                    this.visualizer.render();
+                    requestAnimationFrame(render);
+                }
+            };
+            requestAnimationFrame(render);
+        }
+    }
+
+    disconnectedCallback() {
+        this.isRendering = false;
+        if (this.visualizer) {
+            try {
+                this.visualizer.disconnectAudio();
+                this.visualizer = null;
+            } catch (error) {
+                console.error('Error during cleanup:', error);
+            }
+        }
     }
 }
 

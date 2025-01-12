@@ -31,15 +31,14 @@ class AudioPlayer extends HTMLElement {
         this.initAudioContext();
         this.setupEventListeners();
 
-        this.dispatchEvent(new CustomEvent('audio-ready', {
+        window.dispatchEvent(new CustomEvent('audio-ready', {
             detail: {
-                audioElement: this.audio,
                 audioContext: this.audioContext,
-                sourceNode: this.sourceNode,
-                analyser: this.analyser,
+                sourceNode: this.gainNode, // Utiliser le gainNode comme source
+                analyser: this.analyser
             },
             bubbles: true,
-            composed: true,
+            composed: true
         }));
 
         // Initialiser la piste si `src` est défini dans les attributs
@@ -63,13 +62,31 @@ class AudioPlayer extends HTMLElement {
 
     initAudioContext() {
         this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        this.sourceNode = this.audioContext.createMediaElementSource(this.audio);
         this.gainNode = this.audioContext.createGain();
         this.analyser = this.audioContext.createAnalyser();
-        this.sourceNode = this.audioContext.createMediaElementSource(this.audio);
-
+    
+        // Configuration de l'analyseur
+        this.analyser.fftSize = 2048;
+        this.analyser.smoothingTimeConstant = 0.8;
+    
+        // Connecter les nœuds audio dans le bon ordre
         this.sourceNode.connect(this.gainNode);
         this.gainNode.connect(this.analyser);
-        this.analyser.connect(this.audioContext.destination);
+        this.gainNode.connect(this.audioContext.destination);
+    
+        // Émettre l'événement audio-ready APRÈS la configuration complète
+        setTimeout(() => {
+            window.dispatchEvent(new CustomEvent('audio-ready', {
+                detail: {
+                    audioContext: this.audioContext,
+                    sourceNode: this.gainNode, // Utiliser le gainNode comme source
+                    analyser: this.analyser
+                },
+                bubbles: true,
+                composed: true
+            }));
+        }, 100);
     }
 
     setupEventListeners() {
