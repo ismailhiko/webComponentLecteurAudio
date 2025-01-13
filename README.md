@@ -108,7 +108,7 @@ Ajoutez ensuite les composants à votre page :
 ## Démonstration vidéo
 
 Une vidéo explicative décrivant le projet est disponible ici :  
-👉 **[Lien vers la vidéo](https://votre-lien-youtube-ou-autre-plateforme.com)**
+👉 **[Lien vers la vidéo](https://youtu.be/TjHIXVpwZjo)**
 
 ---
 
